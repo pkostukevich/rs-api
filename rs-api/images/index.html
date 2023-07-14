@@ -1,0 +1,67 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>images</title>
+</head>
+
+<body>
+    <div>
+        <header>
+            <img id="logo" src="logo.png">
+            <div class="search">
+                <input id="search-line" type="text" placeholder="Что Вас интересует?" autofocus>
+                <button onclick="getData()"><img id="search-img" src="find.png"></button>
+            </div>
+        </header>
+        <div id="wrapper">
+            <!-- <img class="gallery-img"> -->
+        </div>
+        <footer></footer>
+    </div>
+</body>
+<script>
+    let query;
+    window.onload = getData;
+    let counter = 0;
+    document.querySelector('input').addEventListener('keydown', function (e) {
+        if (e.keyCode === 13) {
+            getData();
+        }
+    });
+    async function getData() {
+        query = document.getElementById('search-line').value;
+        if (query == '') {
+            query = 'all';
+        }
+        let url = "https://api.unsplash.com/search/photos?query=" + query + "&per_page=21&orientation=landscape&client_id=SouHY7Uul-OxoMl3LL3c0NkxUtjIrKwf3tsGk1JaiVo";
+        const res = await fetch(url);
+        const data = await res.json();
+        addImg(data.results);
+
+        function addImg(data) {
+            if (counter == 0) {
+                for (let i = 0; i < 21; i++) {
+                    const img = document.createElement('img');
+                    img.classList.add('gallery-img');
+                    img.src = data[i].urls.full;
+                    img.alt = `image`;
+                    wrapper.append(img);
+                }
+            }
+            else {
+                for (let i = 0; i < 21; i++) {
+                    document.getElementsByClassName('gallery-img')[i].src = data[i].urls.full;
+                }
+            }
+            counter++;
+        }
+    }
+
+
+</script>
+
+</html>

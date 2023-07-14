@@ -1,0 +1,31 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>quotes</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <img id="cat" src="./assets/cat2.png">
+        <button class="button" onclick="showQuote()">Получить кошачий совет</button>
+        <div id="quote"></div>
+    </div>
+</body>
+<script>
+    function showQuote() {
+        async function getData() {
+            const res = await fetch('https://type.fit/api/quotes');
+            const data = await res.json();
+            let index = Math.floor(Math.random(0, 1600) * 1600);
+            document.getElementById('quote').innerHTML = data[index].text;
+        }
+        // document.getElementById('quote').innerHTML = getData();
+        getData();
+    }
+</script>
+
+</html>
